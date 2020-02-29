@@ -6,9 +6,10 @@ Created on Thu Feb 27 17:28:39 2020
 """
 
 import json
-import pprint
+from pprint import pprint
 
-def CountTags(file):
+
+def countTags(file):
     """
     Count the frequence of each hashtag in a file containing tweets
 
@@ -29,6 +30,7 @@ def CountTags(file):
                 hashtags_count[tag["text"]] = hashtags_count.setdefault(tag["text"], 0)
                 hashtags_count[tag["text"]] += 1
     return hashtags_count
+
 
 def dictMaxValues(dictionnary, n):
     """
@@ -56,10 +58,18 @@ def dictMaxValues(dictionnary, n):
 
     return firstTuples
 
-tags = CountTags("Alost.ndjson")
-firstTags = dictMaxValues(tags,len(tags))
-pprint.pprint (firstTags)
 
-
-
-        
+def searchTag(file, tag):
+    """
+    Prints the full_text of tweets in file containing tag
+    Last line is the number of occurrences
+    tag should include the symbol #
+    """
+    with open("Alost.ndjson", "r") as tweet_corpus:
+        n = 0
+        for line in tweet_corpus.readlines():
+            tweet = json.loads(line)
+            if tag in tweet["full_text"]:
+                pprint(tweet["full_text"])
+                n += 1
+        print (n)
