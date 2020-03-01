@@ -6,6 +6,7 @@ Created on Thu Feb 27 17:28:39 2020
 """
 
 import json
+import re
 from pprint import pprint
 
 
@@ -14,8 +15,8 @@ def countTags(file):
     Count the frequence of each hashtag in a file containing tweets
 
     arg:
-    file is a file containing tweets in ndjson format (see Twitter's API doc
-    for the format of tweets)
+    file contains tweets in ndjson format (see Twitter's API doc for the
+    format of tweets)
 
     Return a dictionnary with hashtags as key and their frequency as value
     """
@@ -65,7 +66,7 @@ def searchTag(file, tag):
     Last line is the number of occurrences
     tag should include the symbol #
     """
-    with open("Alost.ndjson", "r") as tweet_corpus:
+    with open(file, "r") as tweet_corpus:
         n = 0
         for line in tweet_corpus.readlines():
             tweet = json.loads(line)
@@ -73,3 +74,50 @@ def searchTag(file, tag):
                 pprint(tweet["full_text"])
                 n += 1
         print (n)
+
+
+def countMention(file):
+    """
+    Count the frequence of each mention in a file containing tweets
+
+    arg:
+    file contains tweets in ndjson format (see Twitter's API doc for the
+    format of tweets)
+
+    Return a dictionnary with mentions as key and their frequency as value
+    """
+
+    with open(file, "r") as tweet_corpus:
+        mention_count = {}
+        mention_pattern = re.compile("@[\w]+")
+        
+        for line in tweet_corpus.readlines():
+            tweet = json.loads(line)
+            mentions = re.findall(mention_pattern, tweet["full_text"])
+
+            for mention in mentions:
+                # update mention_count
+                mention_count[mention] = mention_count.setdefault(mention, 0)
+                mention_count[mention] += 1
+    return mention_count
+
+
+if __name__ == '__main__':
+
+    AlostTags = countTags("Alost.ndjson")
+    AlostFirstTags = dictMaxValues(AlostTags,30)
+
+    AlostMentions = countMention("Alost.ndjson")
+    AlostFirstMentions = dictMaxValues(AlostMentions, 30)
+
+
+    #pprint (AlostFirstTags)
+    #pprint(AlostFirstMentions)
+
+    #searchTag("Alost.ndjson", "#CarnavalAlost")
+    #aalstcarnaval 223
+    #aalstcarnival 29
+    #CarnavalAlost 15
+
+    #searchTag("Oilsjt.ndjson", "#Oilsjt")
+
