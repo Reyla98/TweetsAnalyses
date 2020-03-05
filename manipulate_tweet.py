@@ -9,6 +9,19 @@ import json
 import re
 from pprint import pprint
 
+def printTweets(file):
+    """
+    Print the tweet_id followed by the full_text
+
+    arg:
+    file contains tweets in ndjson format (see Twitter's API doc for the
+    format of tweets)
+    """
+    with open(file, encoding="UTF-8") as tweet_input:
+        for line in tweet_input.readlines():
+            tweet = json.loads(line)
+            print("{} : {}".format(tweet["tweet_id"], tweet["full_text"]))
+
 
 def countTags(file):
     """
@@ -102,7 +115,34 @@ def countMention(file):
     return mention_count
 
 
+def countTweetsPerUser(file):
+    """
+    Count the number of tweets of each user in a file containing tweets
+
+    arg:
+    file contains tweets in ndjson format (see Twitter's API doc for the
+    format of tweets)
+
+    Return a dictionnary with user_screename as key and their frequency as value
+    """
+
+    with open(file, "r") as tweet_corpus:
+        TweetsPerUser_count = {}
+        
+        for line in tweet_corpus.readlines():
+            tweet = json.loads(line)
+            user = tweet['screen_name']
+
+            # update TweetsPerUser_count
+            TweetsPerUser_count[user] = TweetsPerUser_count.setdefault(user, 0)
+            TweetsPerUser_count[user] += 1
+    return TweetsPerUser_count
+
+
+
 if __name__ == '__main__':
+
+    #printTweets("not_RT.ndjson")
 
     AlostTags = countTags("Alost.ndjson")
     AlostFirstTags = dictMaxValues(AlostTags,30)
@@ -110,9 +150,13 @@ if __name__ == '__main__':
     AlostMentions = countMention("Alost.ndjson")
     AlostFirstMentions = dictMaxValues(AlostMentions, 30)
 
+    AlostTweetsPerUser = countTweetsPerUser("Alost.ndjson")
+    AlostFirstTweetsPerUser = dictMaxValues(AlostTweetsPerUser, 10)
 
     #pprint (AlostFirstTags)
     #pprint(AlostFirstMentions)
+    pprint(AlostFirstTweetsPerUser)
+    print (len(AlostTweetsPerUser))
 
     #searchTag("Alost.ndjson", "#CarnavalAlost")
     #aalstcarnaval 223
