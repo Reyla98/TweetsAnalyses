@@ -36,4 +36,4 @@ def rm_duplicates(file):
                     tweet_id[collected_tweet["tweet_id"]] = 1
 
 if __name__ == "__main__":
-    rm_duplicates("Alost.ndjson")
+    rm_duplicates("Alost_corpus.ndjson")

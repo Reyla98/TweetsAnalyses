@@ -10,7 +10,6 @@ import tweepy
 import twitterscraper as ts
 import json
 from twitter_authentication import myAuthentication
-import pdb
 import re
 from pprint import pprint
 
@@ -40,7 +39,6 @@ def tweepySearch():
 
 
 def getLang(Text):
-    #with open(Text) as htmlText:
     keepLang = re.compile("lang=\"(..)\"")
     Lang = re.search(keepLang, Text)
     try:
@@ -61,8 +59,8 @@ def remove_html_tags(text):
 
 
 def twitterscraperSearch():
-    with open("ts_Alost.ndjson", "a", newline='') as output:
-        list_of_tweets = ts.query_tweets("#OilsjtCarnaval OR #aalstcarnaval OR AalstCarnaval OR #aalstcarnival OR #CoarnavalAlost OR #Aalstcarnaval OR #carnavalaalst", 30)
+    with open("Alost_user.ndjson", "a", newline='') as output:
+        list_of_tweets = ts.query_tweets("Aalst (from:HLN_BE) until:2020-03-01 since:2020-02-14", 30)
         for tweet in list_of_tweets:
             json_data = json.dumps({"tweet_id": int(tweet.tweet_id),
                                     "screen_name":tweet.screen_name,
@@ -77,4 +75,3 @@ def twitterscraperSearch():
 
 if __name__ == '__main__':
     twitterscraperSearch()
-    pass
