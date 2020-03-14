@@ -1,6 +1,10 @@
 # TweetsAnalyses
 Download and analyses on tweets
 
+Author: Laurane Castiaux
+
+Creation date: 28 Feb 2020
+
 
 ## create_ndjson.py
 Use Tweepy or Twitterscraper to create a ndjson file with tweets that match the query.
@@ -159,7 +163,16 @@ NB: A list of stop word is available for English, French, Dutch, Spanish and Cat
 
 
 ## Alost.ndjson
-Contain tweets that I collected related to the Aalst Carnival.
+Contain tweets that I collected with Tweepy related to the Aalst Carnival.
+
+## Alost_user.ndjson
+Contain tweets that I collected with Twitterscraper related to the Aalst Carnival.
+
+## Alost_corpus.ndjson
+Merging of both previously mentioned ndjson files.
 
 ## stopXX.txt files
 Contain stop words for specific languages. Those lists are used by the function countWords.
+
+## Rapport.pdf
+Report (in French) about my collect of tweets wit subject "Aalst Carnival". Written in the frame of the "Séminaire de linguistique computationnelle" at Université catholique de Louvain (Belgium). Teacher for this part of the seminar: Damien De Meyere
